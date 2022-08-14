@@ -5,7 +5,7 @@ info:
   description: Population and Immigration Authority backend service used for Yael Google Apigee POC
   contact:
     name: Yael Software (Apigee)
-    email: dmitryvo@yaelsoft.com
+    email: mosheg@yaelsoft.com
     url: https://yaelsoft.co.il
   license:
     name: private
