@@ -63,7 +63,13 @@ components:
       required:
         - color
         - id
-        - name
+        - expire
+        - firstname
+        - lastname
+        - birthday
+        - city
+        - street
+        - zip
       properties:
         color:
           description: use this color for displaying this category
@@ -73,10 +79,28 @@ components:
           type: integer
           format: int32
           minimum: 0
-        name:
-          description: category name
+        expire:
+          description: id card expire date
           type: string
-        
+        firstname:
+          description: citizen's first name
+          type: string
+        lastname:
+          description: citizen's last name
+          type: string
+        birthday:
+          description: citizen's birthday
+          type: string
+        city:
+          description: the city which the citizen register in
+          type: string
+        street:
+          description: the street of the citizen
+          type: string
+        zip:
+          description: the citizen's zipcode (7)
+          type: integer
+          format: int32
     Citizens:
       type: array
       description: array of citizens
