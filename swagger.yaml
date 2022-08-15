@@ -30,7 +30,7 @@ paths:
             schema:
               $ref: "#/components/schemas/FindOne"
       security:
-        - api_key: []
+        - api-key: []
       responses:
         '200':
           description: Selected citizen
@@ -51,27 +51,16 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: api_key
+        - name: api-key
           in: header
           schema:
             type: string
-        - name: citizenId
-          in: path
-          description: ID of citizen to use
-          required: true
-          schema:
-            $ref: "#/components/schemas/Citizen/properties/IdNumber"
-          style: simple
       x-codegen-request-body-name: body
 components:
   securitySchemes:
-    basicAuth:
-      type: http
-      description: basic auth
-      scheme: basic
-    api_key:
+    api-key:
       type: apiKey
-      name: api_key
+      name: api-key
       in: header
 
   schemas:
@@ -117,34 +106,36 @@ components:
           description: citizen's zipcode (7)
           type: integer
           format: int32
+    FindOne:
+      type: object
+      properties:
+        dataSource:
+          description: The name of the cluster
+          type: string
+        database:
+          description: The name of the database
+          type: string
+        collection:
+          description: The name of the collection
+          type: string
+        filter:
+          description: Filter by
+          type: object
+          properties:
+            IdNumber:
+              type: integer
+          required:
+            - IdNumber
+      required:
+        - dataSource
+        - database
+        - collection
+        - filter
     Citizens:
       type: array
       description: array of citizens
       items:
         $ref: "#/components/schemas/Citizen"
-    FindOne:
-      properties:
-        dataSource:
-          description: The name of the cluster
-          type: string
-          value: mongodb-atlas
-        database:
-          description: The name of the database
-          type: string
-          value: test
-        collection:
-          description: The name of the collection
-          type: string
-          value: users
-        filter:
-          description: Filter by
-          type: array
-          items:
-            - filterBy:
-              type: string
-              value: IdNumber
-            - id:
-              $ref: "#/components/schemas/parameters/idParam"
     Error:
       type: object
       description: error response
@@ -156,13 +147,13 @@ components:
           type: string
         error_description:
           type: string
-    parameters:
-      idParam:
-        name: id
-        in: query
-        description: Citizen's id
-        required: true
-        schema:
-          $ref: "#/components/schemas/Citizen/properties/IdNumber"
+    # parameters:
+    #   idParam:
+    #     name: id
+    #     in: query
+    #     description: Citizen's id
+    #     required: true
+    #     schema:
+    #       $ref: "#/components/schemas/Citizen/properties/IdNumber"
   
         
