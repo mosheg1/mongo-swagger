@@ -11,25 +11,24 @@ info:
     name: private
     url: https://yaelsoft.co.il
 servers:
-  - url: "https://data.mongodb-api.com/app/fdb-app-cvjct/endpoint/data/v1"
-    description: Retail backend for Developing APIs course
+  - url: "https://data.mongodb-api.com/app/fdb-app-cvjct/endpoint/data/v1/action"
+    description: Mongodb backend
 tags:
   - name: citizens
     description: Citizens of Israel
 paths:
-  /citizens/{citizenId}:
-    get:
-      summary: Get a citizen details
-      operationId: getCitizenById
+  /findOne/{citizenId}:
+    post:
       tags:
-        - citizen
-      parameters:
-        - name: citizenId
-          in: path
-          required: true
-          description: citizen id
-          schema:
-            type: integer
+        - findOne
+      summary: Get a citizen details
+      operationId: getCitizenById 
+      requestBody:
+        description: citizen id
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/findOne"
       responses:
         '200':
           description: Selected citizen
@@ -49,6 +48,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      security:
+        - api_key: []
+      parameters:
+        - name: citizenId
+          in: path
+          description: ID of citizen to use
+          required: true
+          schema:
+            $ref: "#/components/schemas/Citizen/properties/IdNumber"
+          style: simple
+      x-codegen-request-body-name: body
 components:
   securitySchemes:
     basicAuth:
@@ -61,44 +71,42 @@ components:
       type: object
       description: citizen details
       required:
-        - color
-        - id
-        - expire
-        - firstname
-        - lastname
-        - birthday
-        - city
-        - street
-        - zip
+        - IdNumber
+        # - IdCardExpireDate
+        # - FirstName
+        # - LastName
+        # - Birthday
+        # - CityName
+        # - StreetName
+        # - ZipCode7
       properties:
-        color:
-          description: use this color for displaying this category
-          type: string
-        id:
+        IdNumber:
           description: integer id (used for access)
           type: integer
           format: int32
           minimum: 0
-        expire:
+        IdCardExpireDate:
           description: id card expire date
           type: string
-        firstname:
+          format: date
+        FirstName:
           description: citizen's first name
           type: string
-        lastname:
+        LastName:
           description: citizen's last name
           type: string
-        birthday:
+        Birthdate:
           description: citizen's birthday
           type: string
-        city:
+          format: date
+        CityName:
           description: the city which the citizen register in
           type: string
-        street:
+        StreetName:
           description: the street of the citizen
           type: string
-        zip:
-          description: the citizen's zipcode (7)
+        ZipCode7:
+          description: citizen's zipcode (7)
           type: integer
           format: int32
     Citizens:
@@ -106,6 +114,24 @@ components:
       description: array of citizens
       items:
         $ref: "#/components/schemas/Citizen"
+    FindOne:
+      properties:
+        dataSource:
+          description: The name of the cluster
+          type: string
+        database:
+          description: The name of the database
+          type: string
+        collection:
+          description: The name of the collection
+          type: string
+        filter:
+          description: Filter by
+          type: array
+          items:
+            - filterBy:
+              type: string
+            - $ref: "#/components/schemas/Citizen/properties/IdNumber"
     Error:
       type: object
       description: error response
