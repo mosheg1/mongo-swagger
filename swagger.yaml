@@ -65,6 +65,10 @@ components:
       type: http
       description: basic auth
       scheme: basic
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
 
   schemas:
     Citizen:
@@ -156,4 +160,5 @@ components:
         required: true
         schema:
           $ref: "#/components/schemas/Citizen/properties/IdNumber"
+  
         
