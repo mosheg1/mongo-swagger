@@ -29,6 +29,8 @@ paths:
           'application/json':
             schema:
               $ref: "#/components/schemas/FindOne"
+      security:
+        - api_key: []
       responses:
         '200':
           description: Selected citizen
@@ -48,8 +50,6 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/Error"
-      security:
-        - api_key: []
       parameters:
         - name: citizenId
           in: path
