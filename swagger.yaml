@@ -51,6 +51,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: api_key
+          in: header
+          schema:
+            type: string
         - name: citizenId
           in: path
           description: ID of citizen to use
