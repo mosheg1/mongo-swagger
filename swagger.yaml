@@ -17,7 +17,7 @@ tags:
   - name: citizens
     description: Citizens of Israel
 paths:
-  /findOne/{citizenId}:
+  /findOne:
     post:
       tags:
         - findOne
@@ -26,26 +26,26 @@ paths:
       requestBody:
         description: citizen id
         content: 
-          application/json:
+          'application/json':
             schema:
               $ref: "#/components/schemas/FindOne"
       responses:
         '200':
           description: Selected citizen
           content:
-            application/json:
+            'application/json':
               schema:
                 $ref: "#/components/schemas/Citizens"
         '404':
           description: Citizen not found
           content:
-            application/json:
+            'application/json':
               schema:
                 $ref: "#/components/schemas/Error"
         default:
           description: unexpected error
           content:
-            application/json:
+            'application/json':
               schema:
                 $ref: "#/components/schemas/Error"
       security:
@@ -119,19 +119,24 @@ components:
         dataSource:
           description: The name of the cluster
           type: string
+          value: mongodb-atlas
         database:
           description: The name of the database
           type: string
+          value: test
         collection:
           description: The name of the collection
           type: string
+          value: users
         filter:
           description: Filter by
           type: array
           items:
             - filterBy:
               type: string
-            - $ref: "#/components/schemas/Citizen/properties/IdNumber"
+              value: IdNumber
+            - id:
+              $ref: "#/components/schemas/parameters/IdParam"
     Error:
       type: object
       description: error response
@@ -143,3 +148,12 @@ components:
           type: string
         error_description:
           type: string
+    parameters:
+      idParam:
+        name: id
+        in: query
+        description: Citizen's id
+        required: true
+        schema:
+          $ref: "#/components/schemas/Citizen/properties/IdNumber"
+        
