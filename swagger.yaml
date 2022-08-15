@@ -136,7 +136,7 @@ components:
               type: string
               value: IdNumber
             - id:
-              $ref: "#/components/schemas/parameters/IdParam"
+              $ref: "#/components/schemas/parameters/idParam"
     Error:
       type: object
       description: error response
