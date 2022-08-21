@@ -11,24 +11,15 @@ info:
     name: private
     url: https://yaelsoft.co.il
 servers:
-  - url: "https://data.mongodb-api.com/app/fdb-app-cvjct/endpoint/data/v1/action"
-    description: Mongodb backend
-tags:
-  - name: citizens
-    description: Citizens of Israel
+  - url: "https://34.160.49.110.nip.io/v1/poalimmap"
+    description: Client mapping
 paths:
-  /findOne:
-    post:
+  /citizens/{citizenId}:
+    get:
       tags:
-        - findOne
+        - Citizen
       summary: Get a citizen details
       operationId: getCitizenById 
-      requestBody:
-        description: citizen id
-        content: 
-          'application/json':
-            schema:
-              $ref: "#/components/schemas/FindOne"
       security:
         - api-key: []
       responses:
@@ -37,9 +28,15 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/Citizens"
+                $ref: "#/components/schemas/Citizen"
         '404':
           description: Citizen not found
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Error"
+        '403':
+          description: Invalid ID
           content:
             'application/json':
               schema:
@@ -55,27 +52,24 @@ paths:
           in: header
           schema:
             type: string
-      x-codegen-request-body-name: body
+        - name: citizenId
+          in: path
+          description: Citizen's id
+          required: true
+          schema:
+            $ref: '#/components/schemas/Citizen/properties/IdNumber'
 components:
   securitySchemes:
     api-key:
       type: apiKey
       name: api-key
       in: header
-
   schemas:
     Citizen:
       type: object
       description: citizen details
       required:
         - IdNumber
-        # - IdCardExpireDat
-        # - FirstName
-        # - LastName
-        # - Birthday
-        # - CityName
-        # - StreetName
-        # - ZipCode7
       properties:
         IdNumber:
           description: integer id (used for access)
@@ -106,36 +100,6 @@ components:
           description: citizen's zipcode (7)
           type: integer
           format: int32
-    FindOne:
-      type: object
-      properties:
-        dataSource:
-          description: The name of the cluster
-          type: string
-        database:
-          description: The name of the database
-          type: string
-        collection:
-          description: The name of the collection
-          type: string
-        filter:
-          description: Filter by
-          type: object
-          properties:
-            IdNumber:
-              type: integer
-          required:
-            - IdNumber
-      required:
-        - dataSource
-        - database
-        - collection
-        - filter
-    Citizens:
-      type: array
-      description: array of citizens
-      items:
-        $ref: "#/components/schemas/Citizen"
     Error:
       type: object
       description: error response
@@ -147,13 +111,5 @@ components:
           type: string
         error_description:
           type: string
-    # parameters:
-    #   idParam:
-    #     name: id
-    #     in: query
-    #     description: Citizen's id
-    #     required: true
-    #     schema:
-    #       $ref: "#/components/schemas/Citizen/properties/IdNumber"
   
         
