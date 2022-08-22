@@ -68,28 +68,18 @@ components:
     Citizen:
       type: object
       description: citizen details
-      required:
-        - IdNumber
       properties:
         IdNumber:
           description: integer id (used for access)
           type: integer
           format: int32
           minimum: 0
-        IdCardExpireDate:
-          description: id card expire date
-          type: string
-          format: date
         FirstName:
           description: citizen's first name
           type: string
         LastName:
           description: citizen's last name
           type: string
-        Birthdate:
-          description: citizen's birthday
-          type: string
-          format: date
         CityName:
           description: the city which the citizen register in
           type: string
@@ -111,5 +101,3 @@ components:
           type: string
         error_description:
           type: string
-  
-        
