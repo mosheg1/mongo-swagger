@@ -1,0 +1,142 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Mongo Training Backend
+  description: >-
+    Population and Immigration Authority backend service used for Yael Google
+    Apigee POC
+  contact:
+    name: Yael Software (Apigee)
+    email: mosheg@yaelsoft.com
+    url: https://yaelsoft.co.il
+  license:
+    name: private
+    url: https://yaelsoft.co.il
+servers:
+  - url: https://data.mongodb-api.com/app/fdb-app-cvjct/endpoint/data/v1/action
+    description: dbM
+paths:
+  /findOne:
+    post:
+      tags:
+        - Citizen
+      summary: Get a citizen details
+      operationId: getCitizenById
+      requestBody:
+        description: citizen id
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dataSource:
+                  description: The name of the cluster
+                  type: string
+                database:
+                  description: The name of the database
+                  type: string
+                collection:
+                  description: The name of the collection
+                  type: string
+                filter:
+                  description: Filter by
+                  type: object
+                  properties:
+                    IdNumber:
+                      type: integer
+      parameters:
+        - name: api-key
+          in: header
+          schema:
+            type: string
+        - name: citizenId
+          in: header
+          description: Citizen's id
+          schema:
+            $ref: '#/components/schemas/Citizen/properties/IdNumber'
+      responses:
+        '200':
+          description: Selected citizen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Citizen'
+        '403':
+          description: Invalid ID
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Citizen not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - api-key: []
+components:
+  securitySchemes:
+    api-key:
+      type: apiKey
+      name: api-key
+      in: header
+  schemas:
+    Citizen:
+      type: object
+      description: citizen details
+      required:
+        - IdNumber
+        - IdCardExpireDate
+        - FirstName
+        - Birthdate
+        - CityName
+        - StreetName
+        - ZipCode7
+      properties:
+        IdNumber:
+          description: integer id (used for access)
+          type: integer
+          format: int32
+          minimum: 0
+        IdCardExpireDate:
+          description: id card expire date
+          type: string
+          format: date-time
+        FirstName:
+          description: citizen's first name
+          type: string
+        LastName:
+          description: citizen's last name
+          type: string
+        Birthdate:
+          description: citizen's birthday
+          type: string
+          format: date-time
+        CityName:
+          description: the city which the citizen register in
+          type: string
+        StreetName:
+          description: the street of the citizen
+          type: string
+        ZipCode7:
+          description: citizen's zipcode (7)
+          type: integer
+          format: int32
+    Error:
+      type: object
+      description: error response
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
