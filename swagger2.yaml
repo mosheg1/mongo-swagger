@@ -13,74 +13,53 @@ info:
     name: private
     url: https://yaelsoft.co.il
 servers:
-  - url: https://data.mongodb-api.com/app/fdb-app-cvjct/endpoint/data/v1/action
-    description: dbM
+  - url: "https://34.160.49.110.nip.io/v1/masacmap"
+    description: Client backend mapping
 paths:
-  /findOne:
-    post:
+  /citizens/{citizenId}:
+    get:
       tags:
         - Citizen
       summary: Get a citizen details
-      operationId: getCitizenById
-      requestBody:
-        description: citizen id
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                dataSource:
-                  description: The name of the cluster
-                  type: string
-                database:
-                  description: The name of the database
-                  type: string
-                collection:
-                  description: The name of the collection
-                  type: string
-                filter:
-                  description: Filter by
-                  type: object
-                  properties:
-                    IdNumber:
-                      type: integer
-      parameters:
-        - name: api-key
-          in: header
-          schema:
-            type: string
-        - name: citizenId
-          in: header
-          description: Citizen's id
-          schema:
-            $ref: '#/components/schemas/Citizen/properties/IdNumber'
+      operationId: getCitizenById 
+      security:
+        - api-key: []
       responses:
         '200':
           description: Selected citizen
           content:
-            application/json:
+            'application/json':
               schema:
-                $ref: '#/components/schemas/Citizen'
+                $ref: "#/components/schemas/Citizen"
+        '404':
+          description: Citizen not found
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Error"
         '403':
           description: Invalid ID
           content:
             'application/json':
               schema:
                 $ref: "#/components/schemas/Error"
-        '404':
-          description: Citizen not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
-            application/json:
+            'application/json':
               schema:
-                $ref: '#/components/schemas/Error'
-      security:
-        - api-key: []
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: api-key
+          in: header
+          schema:
+            type: string
+        - name: citizenId
+          in: path
+          description: Citizen's id
+          required: true
+          schema:
+            $ref: '#/components/schemas/Citizen/properties/IdNumber'
 components:
   securitySchemes:
     api-key:
@@ -91,14 +70,6 @@ components:
     Citizen:
       type: object
       description: citizen details
-      required:
-        - IdNumber
-        - IdCardExpireDate
-        - FirstName
-        - Birthdate
-        - CityName
-        - StreetName
-        - ZipCode7
       properties:
         IdNumber:
           description: integer id (used for access)
@@ -111,9 +82,6 @@ components:
           format: date-time
         FirstName:
           description: citizen's first name
-          type: string
-        LastName:
-          description: citizen's last name
           type: string
         Birthdate:
           description: citizen's birthday
