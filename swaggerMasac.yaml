@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Mongo Training Backend
+  title: MG masac v1
   description: >-
     Population and Immigration Authority backend service used for Yael Google
     Apigee POC
