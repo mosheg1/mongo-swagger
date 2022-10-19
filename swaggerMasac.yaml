@@ -1,10 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Mongo Training Backend
-  description: >-
-    Population and Immigration Authority backend service used for Yael Google
-    Apigee POC
+  title: Masac Web
+  description: Population and Immigration Authority backend service used for Yael Google Apigee POC
   contact:
     name: Yael Software (Apigee)
     email: mosheg@yaelsoft.com
@@ -13,7 +11,7 @@ info:
     name: private
     url: https://yaelsoft.co.il
 servers:
-  - url: "https://34.160.49.110.nip.io/v1/masacmap"
+  - url: "https://api-dev.yaelsoft.co.il/v1/masacmap"
     description: Client backend mapping
 paths:
   /citizens/{citizenId}:
