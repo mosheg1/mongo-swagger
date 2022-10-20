@@ -11,7 +11,7 @@ info:
     name: private
     url: https://yaelsoft.co.il
 servers:
-  - url: "https://34.160.49.110.nip.io/v1/poalimmap"
+  - url: "https://api-dev.yaelsoft.co.il/v1/poalimmap"
     description: Client backend mapping
 security:
   - api-key: []

@@ -1,11 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-<<<<<<< HEAD
-  title: Masac Web
-=======
   title: MG masac v1
->>>>>>> c11fba8030fe2e3d47781a3bcc5919cebbce3fb5
   description: Population and Immigration Authority backend service used for Yael Google Apigee POC
   contact:
     name: Yael Software (Apigee)
