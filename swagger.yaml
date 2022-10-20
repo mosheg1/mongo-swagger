@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Mongo Training Backend
+  title: MG poalim v1
   description: Population and Immigration Authority backend service used for Yael Google Apigee POC
   contact:
     name: Yael Software (Apigee)
@@ -13,6 +13,8 @@ info:
 servers:
   - url: "https://34.160.49.110.nip.io/v1/poalimmap"
     description: Client backend mapping
+security:
+  - api-key: []
 paths:
   /citizens/{citizenId}:
     get:
@@ -20,8 +22,6 @@ paths:
         - Citizen
       summary: Get a citizen details
       operationId: getCitizenById 
-      security:
-        - api-key: []
       responses:
         '200':
           description: Selected citizen
@@ -48,10 +48,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: api-key
-          in: header
-          schema:
-            type: string
         - name: citizenId
           in: path
           description: Citizen's id
@@ -63,7 +59,7 @@ components:
     api-key:
       type: apiKey
       name: api-key
-      in: header
+      in: query
   schemas:
     Citizen:
       type: object
