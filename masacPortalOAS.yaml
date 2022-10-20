@@ -11,7 +11,7 @@ info:
     name: private
     url: https://yaelsoft.co.il
 servers:
-  - url: "https://34.160.49.110.nip.io/v1/masac"
+  - url: "https://api-dev.yaelsoft.co.il/piba/v1/masac"
     description: Client1 API v1
 security:
   - ApiKeyAuth: []
